@@ -390,6 +390,6 @@ Van Drongelen, W. (2007). Signal Processing for Neuroscientists. Academic Press.
 -Mitra, S. K. (2006). Digital Signal Processing. McGraw-Hill.
 - Wallisch, P. (2014). MATLAB for Neuroscientists. Academic Press.
 
-## Contacto
+## Contactos
 - Jose Daniel Porras est.jose.dporras@unimilitar.edu.co
 - Jhonathan David Guevara Ramirez est.jhonathan.guev@unimilitar.edu.co

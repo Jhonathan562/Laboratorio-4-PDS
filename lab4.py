@@ -142,4 +142,4 @@ if p_value_mag < alpha:
 else:
     print("No hay suficiente evidencia para afirmar que la magnitud total es diferente.")
 
-# LAB4 JHONATHAN Y JOSE
+# LAB4 JHONATHAN GUEVARA Y JOSE PORRAS

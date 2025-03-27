@@ -51,4 +51,4 @@ disp(['Datos guardados en: ', outputFile]);
 % ======= CERRAR SESIÓN =======
 clear d;
 
-% LAB4 JHONATHAN Y JOSE
+% LAB4 JHONATHAN GUEVARA Y JOSE PORRAS
