@@ -374,3 +374,22 @@ Ahora bien con ello podremos interpretar lo estadistico.
 No hay diferencias significativas en la frecuencia media y la magnitud total de la señal EMG entre la primera y la última ventana de análisis, lo que indicaría que no hay fatiga muscular detectable y no hay evidencia suficiente para rechazar la hipotesis nula.
 
 Por otra parte se muestra una diferencia significativa en la magnitud total de la señal EMG entre la primera y la última ventana, lo que podrian ser cambios asociados a fatiga muscular.
+
+## Requisitos
+- Python 3.11
+- Math lab
+- Circuito EMG
+- DAQ sistema y librerias 
+
+
+## Bibliografia 
+- EEE Transactions on Signal Processing. (2018). Window Functions for Spectral Analysis. Volumen 66, pp. 100-110.
+- Renza, D., & Ballesteros, D. M. (2020). Procesamiento digital de señales utilizando Python
+- GitHub. (2020). Deep Learning for Audio Signal Processing.
+Van Drongelen, W. (2007). Signal Processing for Neuroscientists. Academic Press.
+-Mitra, S. K. (2006). Digital Signal Processing. McGraw-Hill.
+- Wallisch, P. (2014). MATLAB for Neuroscientists. Academic Press.
+
+## Contacto
+- Jose Daniel Porras est.jose.dporras@unimilitar.edu.co
+- Jhonathan David Guevara Ramirez est.jhonathan.guev@unimilitar.edu.co

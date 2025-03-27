@@ -141,3 +141,5 @@ if p_value_mag < alpha:
     print("La diferencia en la magnitud total es estadísticamente significativa (p < 0.05).")
 else:
     print("No hay suficiente evidencia para afirmar que la magnitud total es diferente.")
+
+# LAB4 JHONATHAN Y JOSE
