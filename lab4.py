@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.signal import butter, filtfilt
 
 # Cargar la señal EMG desde un archivo CSV
-file_path = "emg_signal.csv"  # Asegúrate de que el archivo esté en el mismo directorio
+file_path = "data/emg_signal.csv"  # Asegúrate de que el archivo esté en el mismo directorio
 df = pd.read_csv(file_path)
 
 # Extraer datos
@@ -38,7 +38,7 @@ def butterworth_filter(data, cutoff, fs, filter_type, order=4):
 filtered_high = butterworth_filter(voltaje, 20, fs_mean, 'high')
 
 # Aplicar filtro pasa bajas (60 Hz)
-filtered_signal = butterworth_filter(filtered_high, 20, fs_mean, 'low')
+filtered_signal = butterworth_filter(filtered_high, 31, fs_mean, 'low')
 
 
 # Graficar señal original vs filtrada
