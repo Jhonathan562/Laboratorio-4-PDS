@@ -242,3 +242,81 @@ Por ultimo se van a graficar
 ![Ventanas](images/windows_frecuency_signal_EMG.png)
 
 Como se vera tiende a ser cierta manera un tipo de campana de gauss con ello podremos observar y comparar el musculo fatigado y no en fatiga.
+
+### Estadisticos de Ventanas
+
+Ahora bien tenemos en cuenta las ventana anteriormente calculadas solo con la transfmordad de fourier tendian a parecerse a la onda cosenoidal de Hamming ahora con ello se tomaran dichas ventanas y se hara una prueba estadistica entre ambos casos.
+
+En primer lugar se definio una funcion con el fin de obtener los datos estadisticos con ello se tuvo en cuenta la frecuencia de muestreo.
+
+      # --- Cálculo de características y pruebas estadísticas ---
+
+      def compute_features(signal, fs):
+      N = len(signal)
+      fft_values = np.abs(np.fft.fft(signal))[:N // 2]
+      freqs = np.linspace(0, fs / 2, N // 2)
+
+      freq_mean = np.sum(freqs * fft_values) / np.sum(fft_values)
+      magnitude_total = np.sum(fft_values)
+      return freq_mean, magnitude_total
+
+Ahora se tomaran los datos de la primera y ultima ventana esto nos permitira observar el musculo en fatiga dicho musculo permitira ver como se da esto con la primera y la ultima ventana antiendase como la ventana 1 y la ventana 5
+
+      # Tomar primera y última ventana
+      first_window_hamming = windowed_signals[0]
+      last_window_hamming = windowed_signals[-1]
+
+Con ello ya aplicado el hamming pues debemos calcular las caracteristicas osea se tomaran los varoles de ambas extremos y con ello podremos hacer el estadistico
+
+      # Calcular características
+      freq_mean_first, magnitude_first = compute_features(first_window_hamming, fs_mean)
+      freq_mean_last, magnitude_last = compute_features(last_window_hamming, fs_mean)
+
+Ahora por ultimo se hara el hamming en cada ventana y el estadistico de cada uno y con ello la magnitud y cuanto varian los datos
+
+      # Pruebas estadísticas
+      t_freq, p_value_freq = stats.ttest_ind(first_window_hamming, last_window_hamming, equal_var=False)
+      t_mag, p_value_mag = stats.ttest_ind(np.abs(np.fft.fft(first_window_hamming)),
+                                          np.abs(np.fft.fft(last_window_hamming)),
+                                          equal_var=False)
+
+Ahora se imprimiran los resultados de cada estadistico de la primera y ultima ventana, la frecuencia media y la magnitud en total
+
+      # Resultados
+      print("\n--- Resultados Estadísticos ---")
+      print(f"Frecuencia media (primera ventana): {freq_mean_first:.2f} Hz")
+      print(f"Frecuencia media (última ventana): {freq_mean_last:.2f} Hz")
+      print(f"Magnitud total (primera ventana): {magnitude_first:.2f}")
+      print(f"Magnitud total (última ventana): {magnitude_last:.2f}")
+      print(f"P-value (Frecuencia Media): {p_value_freq:.5f}")
+      print(f"P-value (Magnitud Total): {p_value_mag:.5f}")
+
+
+--- Resultados Estadísticos ---
+Frecuencia media (primera ventana): 26.33 Hz
+Frecuencia media (última ventana): 25.86 Hz
+Magnitud total (primera ventana): 0.80
+Magnitud total (última ventana): 3.05
+P-value (Frecuencia Media): 0.99440
+P-value (Magnitud Total): 0.00001
+
+Donde se puede llegar a afirmar que los datos no son suficnetes para decir que hay una diferencia significativa.
+
+Dado ello se da la interpretacion en la misma zona de abajo del codigo.
+
+      # Interpretación
+      alpha = 0.05
+      if p_value_freq < alpha:
+      print("La diferencia en la frecuencia media es estadísticamente significativa (p < 0.05).")
+      else:
+      print("No hay suficiente evidencia para afirmar que la frecuencia media es diferente.")
+
+      if p_value_mag < alpha:
+      print("La diferencia en la magnitud total es estadísticamente significativa (p < 0.05).")
+      else:
+      print("No hay suficiente evidencia para afirmar que la magnitud total es diferente.")
+
+No hay suficiente evidencia para afirmar que la frecuencia media es diferente.
+La diferencia en la magnitud total es estadísticamente significativa (p < 0.05).
+
+Ahora bien con ello podremos interpretar lo estadistico.

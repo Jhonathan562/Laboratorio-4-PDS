@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import butter, filtfilt
+from scipy import stats
+
 
 # Cargar la señal EMG desde un archivo CSV
 file_path = "data/emg_signal.csv"  # Asegúrate de que el archivo esté en el mismo directorio
@@ -93,3 +95,49 @@ plt.title("Espectro de Frecuencia de la Señal EMG")
 plt.legend()
 plt.grid(True)
 plt.show()
+
+# --- Cálculo de características y pruebas estadísticas ---
+
+def compute_features(signal, fs):
+    N = len(signal)
+    fft_values = np.abs(np.fft.fft(signal))[:N // 2]
+    freqs = np.linspace(0, fs / 2, N // 2)
+
+    freq_mean = np.sum(freqs * fft_values) / np.sum(fft_values)
+    magnitude_total = np.sum(fft_values)
+    return freq_mean, magnitude_total
+
+# Tomar primera y última ventana
+first_window_hamming = windowed_signals[0]
+last_window_hamming = windowed_signals[-1]
+
+# Calcular características
+freq_mean_first, magnitude_first = compute_features(first_window_hamming, fs_mean)
+freq_mean_last, magnitude_last = compute_features(last_window_hamming, fs_mean)
+
+# Pruebas estadísticas
+t_freq, p_value_freq = stats.ttest_ind(first_window_hamming, last_window_hamming, equal_var=False)
+t_mag, p_value_mag = stats.ttest_ind(np.abs(np.fft.fft(first_window_hamming)),
+                                     np.abs(np.fft.fft(last_window_hamming)),
+                                     equal_var=False)
+
+# Resultados
+print("\n--- Resultados Estadísticos ---")
+print(f"Frecuencia media (primera ventana): {freq_mean_first:.2f} Hz")
+print(f"Frecuencia media (última ventana): {freq_mean_last:.2f} Hz")
+print(f"Magnitud total (primera ventana): {magnitude_first:.2f}")
+print(f"Magnitud total (última ventana): {magnitude_last:.2f}")
+print(f"P-value (Frecuencia Media): {p_value_freq:.5f}")
+print(f"P-value (Magnitud Total): {p_value_mag:.5f}")
+
+# Interpretación
+alpha = 0.05
+if p_value_freq < alpha:
+    print("La diferencia en la frecuencia media es estadísticamente significativa (p < 0.05).")
+else:
+    print("No hay suficiente evidencia para afirmar que la frecuencia media es diferente.")
+
+if p_value_mag < alpha:
+    print("La diferencia en la magnitud total es estadísticamente significativa (p < 0.05).")
+else:
+    print("No hay suficiente evidencia para afirmar que la magnitud total es diferente.")
