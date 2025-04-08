@@ -2,6 +2,82 @@
 
 ## CODIGO MATLAB
 
+Ahora en cuanto al codigo requerimos uno de adquisicion dicho codigo permitira adquirir los datos de EMG a traves de un DAQ y un sensor de ECG ahora dicho esto debemos tener en cuenta el Dev o el puerto de conexion siendo Dev2, el canal que sera ai0 este transmite datos, tener une frecuencia de muestreo de 1000 Hz y una duracion de 60 segundos ademas de guardar toda la señal capturada de EMG en un cvs
+
+      % ======= CONFIGURACIÓN =======
+      device = 'Dev2';     % Nombre de tu DAQ (ajusta si es diferente)
+      channel = 'ai0';     % Canal de entrada (por ejemplo, ai0)
+      sampleRate = 1000;   % Frecuencia de muestreo (Hz)
+      duration = 60;       % Duración total (segundos)
+      outputFile = 'emg_signal.csv';  % Nombre del archivo a guardar
+
+En primer lugar va a crear un sesion esto hacia el DAQ leyendo y corroborando dichos datos del mismo.
+
+      % ======= CREAR SESIÓN =======
+      d = daq("ni");  % Crear sesión para DAQ NI
+      addinput(d, device, channel, "Voltage");  % Agregar canal de entrada
+      d.Rate = sampleRate;
+
+Ahora tendremos dos valores uno el cual sera el tiempo en el eje x siendo de 60 segundos y la señal que sera en volteos esta señal sera el cambio de potencial de los musculos.
+
+      % ======= VARIABLES =======
+      timeVec = [];  % Vector de tiempo
+      signalVec = [];  % Vector de señal
+
+Ahora tendremos una interfaz grafica simple en donde se va a graficar el tiempo en X y en Y se grafica el voltaje, ya con ello se podra caprurar la EMG en tiempo real, en x tendremos la ventada de 0 a la duracion 60 segundos y en y sera de 0 a 4 volteos siendo 3.3 el maximo voltaje arrojado como se muestra en la imagen.
+
+      % ======= CONFIGURAR GRÁFICA =======
+      figure('Name', 'Señal en Tiempo Real', 'NumberTitle', 'off');
+      h = plot(NaN, NaN);
+      xlabel('Tiempo (s)');
+      ylabel('Voltaje (V)');
+      title('Señal EMG en Tiempo Real');
+      xlim([0, duration]);
+      ylim([0, 4]);  % Ajusta el rango de voltaje si es necesario
+      grid on;
+
+![señal en matlab](images/EMG_matlab1.png)
+![señal en matlab](images/EMG_matlab2.png)
+![señal en matlab](images/EMG_matlab3.png)
+![señal en matlab](images/EMG_matlab4.png)
+
+Ahora con ello se van a guardar los datos y se van a adquirir y con ello se guardar como un archivo csv para procesarce en matlab
+
+      % ======= ADQUISICIÓN Y GUARDADO =======
+      disp('Iniciando adquisición...');
+      startTime = datetime('now');
+
+Ahora va a graficar punto pot punto y con ello se mantendra en un tipo de matriz y arreglo y con ello graficara punto por punto con un drawline
+
+      while seconds(datetime('now') - startTime) < duration
+      % Leer una muestra
+      [data, timestamp] = read(d, "OutputFormat", "Matrix");
+      
+      % Guardar datos en vectores
+      t = seconds(datetime('now') - startTime);
+      timeVec = [timeVec; t];
+      signalVec = [signalVec; data];
+      
+      % Actualizar gráfica
+      set(h, 'XData', timeVec, 'YData', signalVec);
+      drawnow;
+      end
+
+Por ultimo guardara dichos datos del arreglo en un archivo csv.
+
+      % ======= GUARDAR LOS DATOS =======
+      disp('Adquisición finalizada. Guardando archivo...');
+      T = table(timeVec, signalVec, 'VariableNames', {'Tiempo (s)', 'Voltaje (V)'});
+      writetable(T, outputFile);
+      disp(['Datos guardados en: ', outputFile]);
+
+      % ======= CERRAR SESIÓN =======
+      clear d;
+
+Donde dicha señal tuvo un circuito de adquisicion el cual se observara en la siguiente imagen:
+
+![señal en matlab](images/circuito_EMG.png)
+
 ## CODIGO PYTHON
 
 ### Librerias
