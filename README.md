@@ -240,7 +240,7 @@ Ahora aplicaremos hamming esto para poder mediante el uso de un coseno ponderado
 
 Ahora bien se dara como se puede ver en la siguiente imagen en un timepo finito.
 
-![alt text](imagenes/teoria_hamming.png)
+![alt text](images/teoria_hamming.png)
 
 Esto nos ayudara a obtener un tioo de campana de Gauss aplicando el Hamming como una senoidal
 
