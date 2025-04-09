@@ -168,7 +168,7 @@ Ahora vamos a graficarv la señal esto con el matliplot lo que nos dira que la f
       plt.show()
 
 
-![alt text](imagenes/signal_origin.png)
+![alt text](images/signal_origin.png)
 Donde dicha grafica observa la señal de EMG capturada en Matlab.
 El eje *y* de una señal EMG representa la amplitud del voltaje registrado por los electrodos, generalmente medido en milivoltios (mV) o microvoltios (µV). Esta amplitud refleja la actividad eléctrica generada por las fibras musculares durante su contracción.
 
@@ -202,7 +202,7 @@ Ahora se va a imprimir la frecuencia de muestreo la cual es de:
 
 Ahora se observara la señal de EMG captada con los filtros esto como se puede observar en la siguiente imagen:
 
-![alt text](imagenes/filtered_signal.png)
+![alt text](images/filtered_signal.png)
 
 Ahora con ello se puede observar una grafica original vs la grafica filtrada lo que nos muestra que se atenua la frecuencia debido a que se filtro cierta frecuencia, y dicho grafico sera muy similar a el grafico anteriore.
 
@@ -262,7 +262,7 @@ Ahora se van a graficar las ventanas sin aun aplicar la transformada de Fourier 
 
 Ahora como se veran en las ventanas de tiempo:
 
-![alt text](imagenes/windows_signal_EMG.png)
+![alt text](images/windows_signal_EMG.png)
 
 Aun se ha aplicado la transformada de fourier para el espectro de frecuencia y completar el Hamming ya con ello se hara dicha transformada y podra completarse el Hamming como se vera mas adelante.
 
@@ -290,7 +290,7 @@ Por ultimo se van a graficar
       plt.grid(True)
       plt.show()
 
-![alt text](imagenes/windows_frecuency_signal_EMG.png)
+![alt text](images/windows_frecuency_signal_EMG.png)
 
 Como se vera tiende a ser cierta manera un tipo de campana de gauss con ello podremos observar y comparar el musculo fatigado y no en fatiga.
 
